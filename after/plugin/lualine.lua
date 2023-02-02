@@ -1,12 +1,13 @@
 function LspStatus()
-    local num_clients = vim.lsp.buf_get_clients()
+    local num_clients = vim.lsp.get_active_clients()
 
-    if num_clients > 0 then
+    if #num_clients > 0 then
         local status = require("lsp-status").status()
-        return "status: " .. status
+        if status == "" then status = "No LSP status" end
+        return "[" .. status .. "]"
     end
 
-    return "no lsp"
+    return "[No LSP]"
 end
 
 require("lualine").setup {
