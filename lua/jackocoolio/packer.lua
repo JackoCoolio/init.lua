@@ -22,6 +22,8 @@ return require('packer').startup(function(use)
 
     use { "tpope/vim-fugitive" }
 
+    --[[
+    --
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v1.x',
@@ -44,6 +46,16 @@ return require('packer').startup(function(use)
             { 'rafamadriz/friendly-snippets' }, -- Optional
         }
     }
+    --]]
+
+    use { 'neovim/nvim-lspconfig' }
+    use { 'ms-jpq/coq_nvim', branch = 'coq' }
+    use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+    use { 'ms-jpq/coq.thirdparty', branch = '3p' }
+    use { "williamboman/mason.nvim" }
+    use { "williamboman/mason-lspconfig.nvim" }
+
+    use { "simrat39/rust-tools.nvim" }
 
     use {
         'nvim-lualine/lualine.nvim',
@@ -55,10 +67,6 @@ return require('packer').startup(function(use)
     use { "windwp/nvim-autopairs" }
 
     use { "airblade/vim-gitgutter" }
-
-    use { "lvimuser/lsp-inlayhints.nvim" }
-
-    use { "simrat39/rust-tools.nvim" }
 
     use { 'nvim-telescope/telescope-fzf-native.nvim',
         run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }

@@ -1,78 +1,334 @@
-local lsp = require("lsp-zero")
-
-lsp.preset("recommended")
-
-lsp.ensure_installed {
-    "tsserver",
-    "eslint",
-    "sumneko_lua",
-    "rust_analyzer",
+local opts = {
+    noremap = true,
+    silent = true,
 }
 
-lsp.configure("sumneko_lua", {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { "vim" }
+local esc = function(cmd)
+    return vim.api.nvim_replace_termcodes(cmd, true, false, true)
+end
+
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.reset, opts)
+
+-- this doesn't seem necessary
+-- vim.keymap.set("i", "<esc>", function()
+--     if vim.fn.pumvisible() ~= 0 then
+--         return esc("<C-e><esc>")
+--     else
+--         return esc("<esc>")
+--     end
+-- end, { expr = true, noremap = true })
+
+-- if popup menu is visible, tab selects the next item, otherwise just insert
+-- tab
+vim.keymap.set("i", "<tab>", function()
+    if vim.fn.pumvisible() ~= 0 then
+        return esc("<c-n>")
+    else
+        return esc("<tab>")
+    end
+end, { expr = true, noremap = true })
+
+local lsp_status = require("lsp-status")
+
+lsp_status.config {
+    select_symbol = function(cursor_pos, symbol)
+        if symbol.valueRange then
+            local value_range = {
+                ["start"] = {
+                    character = 0,
+                    line = vim.fn.byte2line(symbol.valueRange[1])
+                },
+                ["end"] = {
+                    character = 0,
+                    line = vim.fn.byte2line(symbol.valueRange[2])
+                }
             }
-        }
-    }
+
+            return require("lsp-status.util").in_range(cursor_pos, value_range)
+        end
+    end
+}
+
+lsp_status.register_progress()
+
+local on_attach = function(client, bufnr)
+    lsp_status.on_attach(client)
+
+    if client.server_capabilities.documentationHighlightProvider then
+        vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+        vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = vim.lsp.buf.document_highlight,
+            buffer = bufnr,
+            group = "lsp_document_highlight",
+            desc = "Document Highlight",
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            callback = vim.lsp.buf.clear_references,
+            buffer = bufnr,
+            group = "lsp_document_highlight",
+            desc = "Clear all the references",
+        })
+    end
+
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+end
+
+local lsp_flags = {
+    debounce_text_changes = 150,
+}
+
+-- mason
+require("mason").setup()
+require("mason-lspconfig").setup()
+
+-- autopairs
+local npairs = require("nvim-autopairs")
+
+npairs.setup({
+    map_bs = true,
+    map_cr = false,
+    disable_filetype = { "TelescopePrompt", "vim" },
 })
 
-local rust_lsp = lsp.build_options("rust_analyzer", {})
+vim.keymap.set("i", "<cr>", function()
+    if vim.fn.pumvisible() ~= 0 then
+        if vim.fn.complete_info({ "selected" }).selected ~= -1 then
+            return esc("<C-y>")
+        else
+            return esc("<C-e>") .. npairs.autopairs_cr()
+        end
+    else
+        return npairs.autopairs_cr()
+    end
+end, { expr = true, noremap = true })
 
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings {
-    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-}
+--  vim.keymap.set("i", "<bs>", function()
+--      if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ "mode" }).mode == "eval" then
+--          return npairs.esc("<C-e>") .. npairs.autopairs_bs()
+--      else
+--          return npairs.autopairs_bs()
+--      end
+--  end, { expr = true, noremap = true })
 
--- cmp_mappings["<Tab>"] = nil
--- cmp_mappings["<S-Tab>"] = nil
+local lsp = require("lspconfig")
 
-lsp.set_preferences {
-    suggest_lsp_servers = false,
-    sign_icons = {
-        error = "E",
-        warn = "W",
-        hint = "H",
-        info = "I",
+vim.g.coq_settings = {
+    display = {
+        ghost_text = {
+            context = { " => ", "" }
+        }
+    },
+    clients = {
+        snippets = {
+            -- i don't like snippets
+            enabled = false,
+        },
+        lsp = {
+            -- lsp is best, show that first
+            weight_adjust = 10,
+        },
+        third_party = {
+            weight_adjust = 15,
+        }
+    },
+    completion = {
+        skip_after = { "{", "}", "[", "]" }
+    },
+    keymap = {
+        recommended = false,
+        manual_complete = "<C-space>",
+
+        -- coq documentation says unset variables (value nil) have default values
+        -- it also says that to unbind, you should set the value to "null",
+        -- which doesn't exist in Lua. nil won't work because that's the same as
+        -- unset. "" seems to work though.
+        jump_to_mark = "",
+        eval_snips = "",
+        bigger_preview = "<c-p>",
     }
 }
 
-lsp.setup_nvim_cmp {
-    mappings = cmp_mappings
-}
-
-lsp.on_attach(function(client, bufnr)
-    local opts = {
-        buffer = bufnr,
-        remap = false,
+require("coq_3p") {
+    -- for this to work, $NVIM_HOME needs to be set
+    { src = "nvimlua", short_name = "nlua" },
+    {
+        src = "repl",
+        sh = "zsh",
+        shell = { n = "node" },
+        max_lines = 99,
+        deadline = 500,
+        unsafe = { "rm", "poweroff", "mv", "sudo" },
     }
-
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-end)
-
-lsp.setup()
-
-vim.diagnostic.config {
-    virtual_text = true,
 }
 
-local rt = require("rust-tools")
+local coq = require("coq")
 
-rt.setup {
-    server = rust_lsp,
+local servers = {
+    tsserver = {},
+    pyright = {},
+    jdtls = {},
+    jsonls = {
+        filetypes = { "json", "jsonc" },
+        settings = {
+            json = {
+                schemas = {
+                    {
+                        filematch = { "package.json" },
+                        url = "https://json.schemastore.org/package.json",
+                    },
+                    {
+                        filematch = { "tsconfig*.json" },
+                        url = "https://json.schemastore.org/tsconfig.json",
+                    },
+                    {
+                        filematch = {
+                            ".prettierrc",
+                            ".prettierrc.json",
+                            "prettier.config.json",
+                        },
+                        url = "https://json.schemastore.org/prettierrc.json",
+                    },
+                }
+            }
+        }
+    },
+    hls = {},
+    gopls = {},
+    sumneko_lua = {
+        settings = {
+            Lua = {
+                runtime = {
+                    version = "LuaJIT",
+                },
+                diagnostics = {
+                    globals = { "vim" },
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                    checkThirdParty = false,
+                },
+                telemetry = {
+                    enable = true,
+                }
+            }
+        }
+    },
+    html = {},
+    clangd = {},
 }
+
+local function lines(s)
+    local pos = 1
+    return function()
+        if not pos then return nil end
+        local p1, p2 = string.find(s, "\r?\n", pos)
+        local line
+        if p1 then
+            line = s:sub(pos, p1 - 1)
+            pos = p2 + 1
+        else
+            line = s:sub(pos)
+            pos = nil
+        end
+        return line
+    end
+end
+
+local function indent(s, n)
+    local out = ""
+    local margin = ""
+    for _ = 1, n do
+        margin = margin .. " "
+    end
+    for line in lines(s) do
+        out = out .. margin .. line .. "\n"
+    end
+    return out
+end
+
+local function dump(o, n)
+    if n == nil then n = 2 end
+
+    if type(o) == "table" then
+        local s = "{\n"
+        local inner = ""
+        for k, v in pairs(o) do
+            if type(k) ~= "number" then k = '"' .. k .. '"' end
+            inner = inner .. "[" .. k .. "] = " .. dump(v, n) .. ",\n"
+        end
+        inner = indent(inner, n)
+        s = s .. inner
+        return s .. "}"
+    else
+        return tostring(o)
+    end
+end
+
+-- start server config log
+local file, err = io.open("/home/jtwam/.cache/nvim-lsp.log", "w+")
+if err ~= nil or file == nil then
+    print("error: couldn't log")
+end
+io.output(file)
+for server, server_config in pairs(servers) do
+    local server_disabled = (server_config.disabled ~= nil and server_config.disabled) or false
+
+    if not server_disabled then
+        local config = server_config or {}
+
+        config.capabilities = vim.tbl_deep_extend("force", server_config.capabilities or {}, lsp_status.capabilities)
+
+        config = coq.lsp_ensure_capabilities(vim.tbl_deep_extend("error", {
+            on_attach = on_attach,
+            flags = lsp_flags,
+        }, config))
+
+        io.write("server config for '" .. server .. "': " .. dump(config) .. "\n\n")
+
+        lsp[server].setup(config)
+    end
+end
+io.close(file)
+
+local rust_tools_opts = {
+    tools = {
+        runnables = {
+            use_telescope = true,
+        },
+        inlay_hints = {
+            auto = true,
+            show_parameter_hints = true,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "⟹ ",
+        },
+    },
+    server = {
+        on_attach = on_attach,
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy",
+                },
+            },
+        },
+    },
+}
+
+require("rust-tools").setup(rust_tools_opts)
+
+-- for some reason, coq_settings.auto_start is ignored, so I have to do this
+vim.cmd("COQnow --shut-up")
+vim.cmd("COQnow --shut-up")
