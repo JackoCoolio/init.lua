@@ -28,7 +28,7 @@ require("telescope").setup {
     },
 }
 
-telescope.load_extension("fzf")
+-- telescope.load_extension("fzf")
 telescope.load_extension("file_browser")
 
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
