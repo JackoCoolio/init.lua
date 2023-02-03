@@ -81,4 +81,6 @@ return require('packer').startup(function(use)
     }
 
     use { "ggandor/leap.nvim" }
+
+    use { "akinsho/toggleterm.nvim" }
 end)
