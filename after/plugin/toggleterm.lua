@@ -24,14 +24,4 @@ local function lazygit_toggle()
     lazygit:toggle()
 end
 
-local zsh = Terminal:new {
-    direction = "vertical",
-    size = 40,
-}
-
-local function zsh_toggle()
-    zsh:toggle()
-end
-
-vim.keymap.set("n", "<leader>G", lazygit_toggle, { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>z", zsh_toggle, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>gs", lazygit_toggle, { noremap = true, silent = true })
