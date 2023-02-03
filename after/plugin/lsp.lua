@@ -3,34 +3,21 @@ local opts = {
     silent = true,
 }
 
-local esc = function(cmd)
-    return vim.api.nvim_replace_termcodes(cmd, true, false, true)
-end
-
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "<leader>Q", vim.diagnostic.reset, opts)
 
--- this doesn't seem necessary
--- vim.keymap.set("i", "<esc>", function()
---     if vim.fn.pumvisible() ~= 0 then
---         return esc("<C-e><esc>")
---     else
---         return esc("<esc>")
---     end
--- end, { expr = true, noremap = true })
-
--- if popup menu is visible, tab selects the next item, otherwise just insert
--- tab
-vim.keymap.set("i", "<tab>", function()
-    if vim.fn.pumvisible() ~= 0 then
-        return esc("<c-n>")
-    else
-        return esc("<tab>")
-    end
-end, { expr = true, noremap = true })
+function DoLSPMappings(bufopts)
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+end
 
 local lsp_status = require("lsp-status")
 
@@ -77,13 +64,7 @@ local on_attach = function(client, bufnr)
 
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+    DoLSPMappings(bufopts)
 end
 
 local lsp_flags = {
@@ -93,35 +74,6 @@ local lsp_flags = {
 -- mason
 require("mason").setup()
 require("mason-lspconfig").setup()
-
--- autopairs
-local npairs = require("nvim-autopairs")
-
-npairs.setup({
-    map_bs = true,
-    map_cr = false,
-    disable_filetype = { "TelescopePrompt", "vim" },
-})
-
-vim.keymap.set("i", "<cr>", function()
-    if vim.fn.pumvisible() ~= 0 then
-        if vim.fn.complete_info({ "selected" }).selected ~= -1 then
-            return esc("<C-y>")
-        else
-            return esc("<C-e>") .. npairs.autopairs_cr()
-        end
-    else
-        return npairs.autopairs_cr()
-    end
-end, { expr = true, noremap = true })
-
---  vim.keymap.set("i", "<bs>", function()
---      if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ "mode" }).mode == "eval" then
---          return npairs.esc("<C-e>") .. npairs.autopairs_bs()
---      else
---          return npairs.autopairs_bs()
---      end
---  end, { expr = true, noremap = true })
 
 local lsp = require("lspconfig")
 
@@ -179,7 +131,6 @@ local coq = require("coq")
 local servers = {
     tsserver = {},
     pyright = {},
-    jdtls = {},
     jsonls = {
         filetypes = { "json", "jsonc" },
         settings = {
@@ -330,5 +281,4 @@ local rust_tools_opts = {
 require("rust-tools").setup(rust_tools_opts)
 
 -- for some reason, coq_settings.auto_start is ignored, so I have to do this
-vim.cmd("COQnow --shut-up")
 vim.cmd("COQnow --shut-up")

@@ -56,6 +56,7 @@ return require('packer').startup(function(use)
     use { "williamboman/mason-lspconfig.nvim" }
 
     use { "simrat39/rust-tools.nvim" }
+    use { "mfussenegger/nvim-jdtls" }
 
     use {
         'nvim-lualine/lualine.nvim',
