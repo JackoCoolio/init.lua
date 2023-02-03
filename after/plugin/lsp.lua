@@ -9,16 +9,6 @@ vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "<leader>Q", vim.diagnostic.reset, opts)
 
-function DoLSPMappings(bufopts)
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-end
-
 local lsp_status = require("lsp-status")
 
 lsp_status.config {
@@ -61,10 +51,6 @@ local on_attach = function(client, bufnr)
             desc = "Clear all the references",
         })
     end
-
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-
-    DoLSPMappings(bufopts)
 end
 
 local lsp_flags = {
@@ -129,6 +115,7 @@ require("coq_3p") {
 local coq = require("coq")
 
 local servers = {
+    alex = {},
     tsserver = {},
     pyright = {},
     jsonls = {
@@ -281,4 +268,5 @@ local rust_tools_opts = {
 require("rust-tools").setup(rust_tools_opts)
 
 -- for some reason, coq_settings.auto_start is ignored, so I have to do this
+vim.cmd("COQnow --shut-up")
 vim.cmd("COQnow --shut-up")
