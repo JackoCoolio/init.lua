@@ -168,52 +168,7 @@ local servers = {
     clangd = {},
 }
 
-local function lines(s)
-    local pos = 1
-    return function()
-        if not pos then return nil end
-        local p1, p2 = string.find(s, "\r?\n", pos)
-        local line
-        if p1 then
-            line = s:sub(pos, p1 - 1)
-            pos = p2 + 1
-        else
-            line = s:sub(pos)
-            pos = nil
-        end
-        return line
-    end
-end
-
-local function indent(s, n)
-    local out = ""
-    local margin = ""
-    for _ = 1, n do
-        margin = margin .. " "
-    end
-    for line in lines(s) do
-        out = out .. margin .. line .. "\n"
-    end
-    return out
-end
-
-local function dump(o, n)
-    if n == nil then n = 2 end
-
-    if type(o) == "table" then
-        local s = "{\n"
-        local inner = ""
-        for k, v in pairs(o) do
-            if type(k) ~= "number" then k = '"' .. k .. '"' end
-            inner = inner .. "[" .. k .. "] = " .. dump(v, n) .. ",\n"
-        end
-        inner = indent(inner, n)
-        s = s .. inner
-        return s .. "}"
-    else
-        return tostring(o)
-    end
-end
+local util = require("jackocoolio.util")
 
 -- start server config log
 local file, err = io.open("/home/jtwam/.cache/nvim-lsp.log", "w+")
@@ -234,7 +189,7 @@ for server, server_config in pairs(servers) do
             flags = lsp_flags,
         }, config))
 
-        io.write("server config for '" .. server .. "': " .. dump(config) .. "\n\n")
+        io.write("server config for '" .. server .. "': " .. util.dump(config) .. "\n\n")
 
         lsp[server].setup(config)
     end
