@@ -1,10 +1,16 @@
+local lsp_status = require("lsp-status")
+
+lsp_status.config {
+    status_symbol = " 📶 "
+}
+
 function LspStatus()
     local num_clients = vim.lsp.get_active_clients()
 
     if #num_clients > 0 then
-        local status = require("lsp-status").status()
+        local status = lsp_status.status()
         if status == "" then status = "No LSP status" end
-        return "[" .. status .. "]"
+        return status
     end
 
     return "[No LSP]"
