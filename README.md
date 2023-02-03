@@ -10,4 +10,5 @@ open automatically, run `:PackerSync`
 Required for `:Telescope live_grep`.
 ## cmake
 Required for `telescope_fzf_native`, but I've encountered some issues with getting it to work, so I've disabled it.
-
+## lazygit
+Required for the <kbd>\<leader\></kbd><kbd>g</kbd><kbd>s</kbd> mapping to work.
