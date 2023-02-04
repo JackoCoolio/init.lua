@@ -63,59 +63,54 @@ require("mason-lspconfig").setup()
 
 local lsp = require("lspconfig")
 
-vim.g.coq_settings = {
-    display = {
-        ghost_text = {
-            context = { " => ", "" }
-        }
-    },
-    clients = {
-        snippets = {
-            -- i don't like snippets
-            enabled = false,
-        },
-        lsp = {
-            -- lsp is best, show that first
-            weight_adjust = 10,
-        },
-        third_party = {
-            weight_adjust = 15,
-        }
-    },
-    completion = {
-        skip_after = { "{", "}", "[", "]" }
-    },
-    keymap = {
-        recommended = false,
-        manual_complete = "<C-space>",
+local cmp = require("cmp")
 
-        -- coq documentation says unset variables (value nil) have default values
-        -- it also says that to unbind, you should set the value to "null",
-        -- which doesn't exist in Lua. nil won't work because that's the same as
-        -- unset. "" seems to work though.
-        jump_to_mark = "",
-        eval_snips = "",
-        bigger_preview = "<c-p>",
-    }
+cmp.setup {
+    snippet = {
+        expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+        end
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert {
+        ["<c-space>"] = cmp.mapping.complete(),
+        ["<c-e>"] = cmp.mapping.abort(),
+        ["<cr>"] = cmp.mapping.confirm { select = false },
+        ["<tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<s-tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            else
+                fallback()
+            end
+        end)
+    },
+    sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "nvim_lsp_signature_help" },
+        { name = "nvim_lua" },
+        -- { name = "luasnip" },
+    }, {
+        { name = "buffer", keyword_length = 3 },
+        { name = "path" },
+        { name = "cmdline" }
+    })
 }
 
-require("coq_3p") {
-    -- for this to work, $NVIM_HOME needs to be set
-    { src = "nvimlua", short_name = "nlua" },
-    {
-        src = "repl",
-        sh = "zsh",
-        shell = { n = "node" },
-        max_lines = 99,
-        deadline = 500,
-        unsafe = { "rm", "poweroff", "mv", "sudo" },
-    }
-}
-
-local coq = require("coq")
+local lua_runtime_path = vim.split(package.path, ";")
+table.insert(lua_runtime_path, "lua/?.lua")
+table.insert(lua_runtime_path, "lua/?/init.lua")
 
 local servers = {
-    alex = {},
     tsserver = {},
     pyright = {},
     jsonls = {
@@ -150,6 +145,7 @@ local servers = {
             Lua = {
                 runtime = {
                     version = "LuaJIT",
+                    path = lua_runtime_path,
                 },
                 diagnostics = {
                     globals = { "vim" },
@@ -170,6 +166,8 @@ local servers = {
 
 local util = require("jackocoolio.util")
 
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 -- start server config log
 local file, err = io.open("/home/jtwam/.cache/nvim-lsp.log", "w+")
 if err ~= nil or file == nil then
@@ -184,10 +182,12 @@ for server, server_config in pairs(servers) do
 
         config.capabilities = vim.tbl_deep_extend("force", server_config.capabilities or {}, lsp_status.capabilities)
 
-        config = coq.lsp_ensure_capabilities(vim.tbl_deep_extend("error", {
+        config.capabilities = vim.tbl_deep_extend("keep", cmp_capabilities, config.capabilities)
+
+        config = vim.tbl_deep_extend("error", {
             on_attach = on_attach,
             flags = lsp_flags,
-        }, config))
+        }, config)
 
         io.write("server config for '" .. server .. "': " .. util.dump(config) .. "\n\n")
 
@@ -217,11 +217,8 @@ local rust_tools_opts = {
                 },
             },
         },
+        capabilities = cmp_capabilities,
     },
 }
 
 require("rust-tools").setup(rust_tools_opts)
-
--- for some reason, coq_settings.auto_start is ignored, so I have to do this
-vim.cmd("COQnow --shut-up")
-vim.cmd("COQnow --shut-up")
