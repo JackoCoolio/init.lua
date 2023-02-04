@@ -1,6 +1,7 @@
 local telescope = require("telescope")
 local fb_actions = require("telescope._extensions.file_browser.actions")
 local builtin = require("telescope.builtin")
+local util = require("jackocoolio.util")
 
 require("telescope").setup {
     extensions = {
@@ -33,7 +34,7 @@ telescope.load_extension("file_browser")
 
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 vim.keymap.set("n", "<leader>gf", function()
-    if IsGit() then
+    if util.is_git() then
         builtin.git_files()
     else
         print("error: not a git repository")
@@ -47,6 +48,10 @@ end, {})
 vim.keymap.set("n", "<leader>pg", function()
     local search = vim.fn.input("grep: ")
     builtin.grep_string({ search = search })
+end)
+
+vim.keymap.set("n", "<leader>pd", function ()
+    builtin.lsp_workspace_symbols()
 end)
 
 vim.keymap.set("n", "<leader>e", telescope.extensions.file_browser.file_browser, { noremap = true })
