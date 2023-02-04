@@ -13,6 +13,7 @@ require("telescope").setup {
         },
         file_browser = {
             theme = "ivy",
+            dir_icon = "",
             grouped = true,
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
@@ -32,26 +33,26 @@ require("telescope").setup {
 -- telescope.load_extension("fzf")
 telescope.load_extension("file_browser")
 
-vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
+local opts = { noremap = true, silent = true }
+
+vim.keymap.set("n", "<leader>pf", builtin.find_files, opts)
 vim.keymap.set("n", "<leader>gf", function()
     if util.is_git() then
         builtin.git_files()
     else
         print("error: not a git repository")
     end
-end, {})
+end, opts)
 
 vim.keymap.set("n", "<leader>ps", function()
     builtin.live_grep()
-end, {})
+end, opts)
 
 vim.keymap.set("n", "<leader>pg", function()
     local search = vim.fn.input("grep: ")
     builtin.grep_string({ search = search })
-end)
+end, opts)
 
-vim.keymap.set("n", "<leader>pd", function ()
-    builtin.lsp_workspace_symbols()
-end)
+vim.keymap.set("n", "<leader>pd", builtin.lsp_workspace_symbols, opts)
 
-vim.keymap.set("n", "<leader>e", telescope.extensions.file_browser.file_browser, { noremap = true })
+vim.keymap.set("n", "<leader>e", telescope.extensions.file_browser.file_browser, opts)
