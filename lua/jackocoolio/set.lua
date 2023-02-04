@@ -4,6 +4,8 @@ vim.opt.mouse = ""
 
 vim.opt.showmode = false
 
+vim.opt.cmdheight = 2
+
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
