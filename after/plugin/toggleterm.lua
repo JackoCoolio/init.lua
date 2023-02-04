@@ -2,7 +2,7 @@ local cwd = vim.fn.getcwd()
 
 require("toggleterm").setup {
     shell = "tmux new -A -s __TOGGLE_TERM__" .. cwd,
-    open_mapping = "<C-t>",
+    open_mapping = [[<C-\>]],
     size = function(term)
         if term.direction == "horizontal" then
             return 15
@@ -10,7 +10,7 @@ require("toggleterm").setup {
             return vim.o.columns * 0.4
         end
     end,
-    direction = "vertical"
+    direction = "horizontal"
 }
 
 local Terminal = require("toggleterm.terminal").Terminal
