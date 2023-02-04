@@ -92,4 +92,6 @@ return require('packer').startup(function(use)
     use { "akinsho/toggleterm.nvim" }
 
     use { "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }
+
+    use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig" }
 end)

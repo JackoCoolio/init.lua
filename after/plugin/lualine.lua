@@ -17,6 +17,8 @@ function LspStatus()
     return "[No LSP]"
 end
 
+local navic = require("nvim-navic")
+
 require("lualine").setup {
     options = {
         icons_enabled = true,
@@ -59,7 +61,7 @@ require("lualine").setup {
             always_visible = false,
         } },
         lualine_c = { "filename", LspStatus },
-        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_x = { "encoding", "filetype" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
     },
@@ -71,7 +73,14 @@ require("lualine").setup {
         lualine_y = {},
         lualine_z = {},
     },
-    tabline = {},
+    tabline = {
+        lualine_a = { "filename" },
+        lualine_b = {},
+        lualine_c = { { navic.get_location, con = navic.is_available } },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+    },
     winbar = {},
     inactive_winbar = {},
     extensions = {},

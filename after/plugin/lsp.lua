@@ -32,8 +32,14 @@ lsp_status.config {
 
 lsp_status.register_progress()
 
+local navic = require("nvim-navic")
+
 local on_attach = function(client, bufnr)
     lsp_status.on_attach(client)
+
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
 
     if client.server_capabilities.documentationHighlightProvider then
         vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
