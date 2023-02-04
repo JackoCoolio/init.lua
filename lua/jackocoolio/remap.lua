@@ -57,11 +57,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 -- setup LSP maps
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
+        local filetype = vim.filetype.match { buf = args.buf }
+
         local bufopts = { noremap = true, silent = true, buffer = args.buf }
+
+        if filetype == "rust" then
+            local rusttools = require("rust-tools")
+            vim.keymap.set("n", "K", rusttools.hover_actions.hover_actions, bufopts)
+        else
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+        end
 
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
         vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
