@@ -147,7 +147,7 @@ local servers = {
     },
     hls = {},
     gopls = {},
-    sumneko_lua = {
+    lua_ls = {
         settings = {
             Lua = {
                 runtime = {
