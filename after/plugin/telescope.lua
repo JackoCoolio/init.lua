@@ -35,7 +35,13 @@ telescope.load_extension("file_browser")
 
 local opts = { noremap = true, silent = true }
 
-vim.keymap.set("n", "<leader>pf", builtin.find_files, opts)
+vim.keymap.set("n", "<leader>pf", function()
+    builtin.find_files {
+        hidden = true,
+        no_ignore = true,
+    }
+end, opts)
+
 vim.keymap.set("n", "<leader>gf", function()
     if util.is_git() then
         builtin.git_files()
