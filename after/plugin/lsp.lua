@@ -117,6 +117,7 @@ table.insert(lua_runtime_path, "lua/?/init.lua")
 
 local servers = {
     cssls = {},
+    vls = {},
     tsserver = {},
     pyright = {},
     jsonls = {
