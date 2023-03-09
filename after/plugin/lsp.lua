@@ -118,6 +118,7 @@ table.insert(lua_runtime_path, "lua/?/init.lua")
 local servers = {
     prismals = {},
     cssls = {},
+    vls = {},
     tsserver = {},
     pyright = {},
     jsonls = {
