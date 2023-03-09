@@ -1,5 +1,11 @@
 M = {}
 
+function M.set_tab_width(w)
+    vim.opt.tabstop = w
+    vim.opt.softtabstop = w
+    vim.opt.shiftwidth = w
+end
+
 function M.is_git()
     local repo_dir = vim.fn.system("git rev-parse --show-toplevel 2> /dev/null | tr -d '\n'")
     return repo_dir ~= ""
