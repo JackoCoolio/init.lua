@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("RustFmtOnSave", { clear = true }),
     pattern = "*.rs",
     callback = function()
-        vim.lsp.buf.formatting_sync()
+        vim.lsp.buf.format()
     end
 })
 
