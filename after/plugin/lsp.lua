@@ -169,6 +169,7 @@ local servers = {
     },
     html = {},
     clangd = {},
+    zls = {},
 }
 
 local util = require("jackocoolio.util")
