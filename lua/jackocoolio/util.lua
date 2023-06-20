@@ -1,5 +1,9 @@
 M = {}
 
+function M.get_filename()
+    return vim.fn.expand("%")
+end
+
 function M.set_tab_width(w)
     vim.opt.tabstop = w
     vim.opt.softtabstop = w

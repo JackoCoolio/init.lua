@@ -72,7 +72,8 @@ return require('packer').startup(function(use)
 
     use { "nvim-lua/lsp-status.nvim" }
 
-    use { "windwp/nvim-autopairs" }
+    -- use { "windwp/nvim-autopairs" }
+    use { "cohama/lexima.vim" }
 
     use { "airblade/vim-gitgutter" }
 
@@ -94,4 +95,6 @@ return require('packer').startup(function(use)
     use { "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }
 
     use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig" }
+
+    use { "nvim-neorg/neorg", run = ":Neorg sync-parsers" }
 end)
