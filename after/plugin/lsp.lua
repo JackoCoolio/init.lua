@@ -32,13 +32,13 @@ lsp_status.config {
 
 lsp_status.register_progress()
 
-local navic = require("nvim-navic")
+-- local navic = require("nvim-navic")
 
 local on_attach = function(client, bufnr)
     lsp_status.on_attach(client)
 
     if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, bufnr)
+        -- navic.attach(client, bufnr)
     end
 
     if client.server_capabilities.documentationHighlightProvider then
@@ -64,8 +64,8 @@ local lsp_flags = {
 }
 
 -- mason
-require("mason").setup()
-require("mason-lspconfig").setup()
+-- require("mason").setup()
+-- require("mason-lspconfig").setup()
 
 local lsp = require("lspconfig")
 
@@ -171,6 +171,7 @@ local servers = {
     clangd = {},
     zls = {},
     nil_ls = {},
+    gleam = {},
 }
 
 local util = require("jackocoolio.util")
@@ -181,15 +182,16 @@ local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local file, err = io.open("/home/jtwam/.cache/nvim-lsp.log", "w+")
 if err ~= nil or file == nil then
     print("error: couldn't log")
+else
+    io.output(file)
 end
-io.output(file)
 for server, server_config in pairs(servers) do
     local server_disabled = (server_config.disabled ~= nil and server_config.disabled) or false
 
     if not server_disabled then
         local config = server_config or {}
 
-        config.capabilities = vim.tbl_deep_extend("force", server_config.capabilities or {}, lsp_status.capabilities)
+        config.capabilities = vim.tbl_deep_extend("keep", server_config.capabilities or {}, lsp_status.capabilities)
 
         config.capabilities = vim.tbl_deep_extend("keep", cmp_capabilities, config.capabilities)
 
