@@ -13,9 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
     { "nvim-telescope/telescope.nvim", tag = "0.1.5", dependencies = { "nvim-lua/plenary.nvim" } },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { "nvim-telescope/telescope-file-browser.nvim", dependencies = { { "nvim-telescope/telescope.nvim" }, { "nvim-tree/nvim-web-devicons" } } },
+
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    { "theprimeagen/harpoon" },
+    { "theprimeagen/harpoon", dependencies = { "nvim-lua/plenary.nvim" }, branch = "harpoon2" },
     { "mbbill/undotree" },
     { 'neovim/nvim-lspconfig' },
     { "hrsh7th/cmp-nvim-lsp" },
@@ -26,25 +29,34 @@ local plugins = {
     { "hrsh7th/cmp-cmdline" },
     { "hrsh7th/nvim-cmp" },
     { 'L3MON4D3/LuaSnip' },
-    { "williamboman/mason.nvim" },
-    { "williamboman/mason-lspconfig.nvim" },
+    -- { "williamboman/mason.nvim" },
+    -- { "williamboman/mason-lspconfig.nvim" },
     { "simrat39/rust-tools.nvim" },
-    { "mfussenegger/nvim-jdtls" },
-    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons', optional = true } },
+    -- { "mfussenegger/nvim-jdtls" },
+
+    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
     { "nvim-lua/lsp-status.nvim" },
-    { "cohama/lexima.vim" },
+
+    { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
     { "airblade/vim-gitgutter" },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
-    { "nvim-telescope/telescope-file-browser.nvim", dependencies = { { "nvim-telescope/telescope.nvim" }, { "nvim-tree/nvim-web-devicons" } } },
     { "ggandor/leap.nvim" },
-    { "akinsho/toggleterm.nvim" },
-    { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" } },
-    { "SmiteshP/nvim-navic", dependencies = { "neovim/nvim-lspconfig" } },
-    { "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
+    -- { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" } },
+    -- { "SmiteshP/nvim-navic", dependencies = { "neovim/nvim-lspconfig" } },
+    -- { "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
 }
 
-local opts = {}
-
-require("lazy").setup(plugins, opts)
+local opts = {
+    install = {
+        -- try to load catppuccin before running :Lazy on startup
+        colorscheme = { "catppuccin" },
+    },
+    checker = {
+        enabled = true,
+        notify = true,
+        frequency = 60,
+    },
+}
 
 require("jackocoolio")
+
+require("lazy").setup(plugins, opts)

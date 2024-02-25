@@ -5,7 +5,7 @@ lsp_status.config {
     indicator_ok = "👍"
 }
 
-function LspStatus()
+function get_lsp_status()
     local num_clients = vim.lsp.get_active_clients()
 
     if #num_clients > 0 then
@@ -17,7 +17,7 @@ function LspStatus()
     return "[No LSP]"
 end
 
-local navic = require("nvim-navic")
+-- local navic = require("nvim-navic")
 
 require("lualine").setup {
     options = {
@@ -40,27 +40,31 @@ require("lualine").setup {
     },
     sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch", "diff", {
-            "diagnostics",
-            sources = { "nvim_lsp" },
-            sections = { "error", "warn", "info", "hint" },
-            diagnostics_color = {
-                error = "DiagnosticError",
-                warn = "DiagnosticWarn",
-                info = "DiagnosticInfo",
-                hint = "DiagnosticHint",
+        lualine_b = {
+            "branch",
+            "diff",
+            {
+                "diagnostics",
+                sources = { "nvim_lsp" },
+                sections = { "error", "warn", "info", "hint" },
+                diagnostics_color = {
+                    error = "DiagnosticError",
+                    warn = "DiagnosticWarn",
+                    info = "DiagnosticInfo",
+                    hint = "DiagnosticHint",
+                },
+                symbols = {
+                    error = "E",
+                    warn = "W",
+                    info = "I",
+                    hint = "H",
+                },
+                colored = true,
+                update_in_insert = false,
+                always_visible = false,
             },
-            symbols = {
-                error = "E",
-                warn = "W",
-                info = "I",
-                hint = "H",
-            },
-            colored = true,
-            update_in_insert = false,
-            always_visible = false,
-        } },
-        lualine_c = { "filename", LspStatus },
+        },
+        lualine_c = { "filename", get_lsp_status },
         lualine_x = { "encoding", "filetype" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
@@ -76,7 +80,7 @@ require("lualine").setup {
     tabline = {
         lualine_a = { "filename" },
         lualine_b = {},
-        lualine_c = { { navic.get_location, con = navic.is_available } },
+        -- lualine_c = { { navic.get_location, con = navic.is_available } },
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
