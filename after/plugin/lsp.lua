@@ -172,7 +172,9 @@ local servers = {
     clangd = {},
     zls = {},
     nil_ls = {},
-    gleam = {},
+    gleam = {
+        cmd = { "glas" },
+    },
 }
 
 local util = require("jackocoolio.util")
