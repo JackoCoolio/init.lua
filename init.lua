@@ -43,6 +43,8 @@ local plugins = {
     -- { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" } },
     -- { "SmiteshP/nvim-navic", dependencies = { "neovim/nvim-lspconfig" } },
     -- { "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
+
+    { "NoahTheDuke/vim-just", ft = { "just" }},
 }
 
 local opts = {
