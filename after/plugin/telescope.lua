@@ -61,6 +61,8 @@ end, opts)
 
 vim.keymap.set("n", "<leader>pd", builtin.lsp_workspace_symbols, opts)
 
+vim.keymap.set("n", "<leader>pb", builtin.buffers, opts)
+
 vim.keymap.set("n", "<leader>e", telescope.extensions.file_browser.file_browser, opts)
 
 vim.keymap.set("n", "<leader>ht", builtin.help_tags, opts)
