@@ -45,6 +45,9 @@ local plugins = {
     -- { "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
 
     { "NoahTheDuke/vim-just", ft = { "just" }},
+
+    { "tpope/vim-fugitive" },
+    { "sindrets/diffview.nvim" },
 }
 
 local opts = {

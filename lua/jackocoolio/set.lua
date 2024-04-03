@@ -37,3 +37,5 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
 
 vim.g.gitgutter_map_keys = 0
+
+vim.opt.fillchars = "diff:󰿟"
