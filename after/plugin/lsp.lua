@@ -209,29 +209,3 @@ for server, server_config in pairs(servers) do
 end
 io.close(file)
 
-local rust_tools_opts = {
-    tools = {
-        runnables = {
-            use_telescope = true,
-        },
-        inlay_hints = {
-            auto = true,
-            show_parameter_hints = true,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "⟹ ",
-        },
-    },
-    server = {
-        on_attach = on_attach,
-        settings = {
-            ["rust-analyzer"] = {
-                checkOnSave = {
-                    command = "clippy",
-                },
-            },
-        },
-        capabilities = cmp_capabilities,
-    },
-}
-
-require("rust-tools").setup(rust_tools_opts)

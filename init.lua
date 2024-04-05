@@ -31,7 +31,7 @@ local plugins = {
     { 'L3MON4D3/LuaSnip' },
     -- { "williamboman/mason.nvim" },
     -- { "williamboman/mason-lspconfig.nvim" },
-    { "simrat39/rust-tools.nvim" },
+    { "mrcjkb/rustaceanvim", ft = { "rust" } },
     -- { "mfussenegger/nvim-jdtls" },
 
     { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
