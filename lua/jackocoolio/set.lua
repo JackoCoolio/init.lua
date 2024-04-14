@@ -1,4 +1,4 @@
--- vim.opt.guicursor = ""
+vim.opt.guicursor = ""
 
 vim.opt.mouse = ""
 
@@ -41,3 +41,10 @@ vim.g.gitgutter_map_keys = 0
 vim.opt.fillchars = "diff:󰿟"
 
 vim.o.smartcase = true
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
+    pattern = "*.roc",
+    callback = function()
+        vim.bo.filetype = "roc"
+    end,
+})
