@@ -43,17 +43,6 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- make current file executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- source and run PackerSync when writing to packer.lua
-vim.api.nvim_create_autocmd("BufWritePost", {
-    group = vim.api.nvim_create_augroup("PackerSyncOnSave", { clear = true }),
-    pattern = "packer.lua",
-    callback = function()
-        local filename = vim.fn.expand("%")
-        vim.cmd("source " .. filename)
-        vim.cmd("PackerSync")
-    end
-})
-
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("RustFmtOnSave", { clear = true }),
     pattern = "*.rs",

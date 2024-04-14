@@ -1,9 +1,9 @@
 # Installation
 1. `cd ~/.config`
 2. `git clone https://github.com/jackocoolio/init.lua nvim`
-3. Install packer.nvim
-4. `nvim ./lua/jackocoolio/packer.lua` and run `:so`. If a packer window doesn't
-open automatically, run `:PackerSync`
+3. `cd nvim`
+4. `nvim init.lua`
+5. `:Lazy`
 
 # Dependencies
 ## ripgrep
