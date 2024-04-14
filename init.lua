@@ -38,7 +38,7 @@ local plugins = {
     { "nvim-lua/lsp-status.nvim" },
 
     { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
-    { "airblade/vim-gitgutter" },
+    { "lewis6991/gitsigns.nvim" },
     { "ggandor/leap.nvim" },
     -- { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" } },
     -- { "SmiteshP/nvim-navic", dependencies = { "neovim/nvim-lspconfig" } },
