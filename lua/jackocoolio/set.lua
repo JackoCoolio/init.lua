@@ -1,5 +1,7 @@
 vim.opt.guicursor = ""
 
+vim.opt.cursorline = true
+
 vim.opt.mouse = ""
 
 vim.opt.showmode = false
