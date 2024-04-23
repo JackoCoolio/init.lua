@@ -1,5 +1,37 @@
 vim.opt.guicursor = ""
 
+local space = "·"
+vim.opt.listchars = {
+    tab = " ",
+    lead = space,
+    trail = space,
+    nbsp = space,
+}
+
+vim.opt.list = true
+
+vim.cmd([[match TrailingWhitespace /\s\+$/]])
+
+local set_trailing_whitespace_level = function(level)
+    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = level })
+end
+
+set_trailing_whitespace_level("Error")
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+    callback = function()
+        vim.opt.listchars.trail = nil
+        set_trailing_whitespace_level("Whitespace")
+    end
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+    callback = function()
+        vim.opt.listchars.trail = space
+        set_trailing_whitespace_level("Error")
+    end
+})
+
 vim.opt.cursorline = true
 
 vim.opt.mouse = ""
