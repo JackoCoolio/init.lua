@@ -18,9 +18,8 @@ local plugins = {
 
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    { "theprimeagen/harpoon", dependencies = { "nvim-lua/plenary.nvim" }, branch = "harpoon2" },
     { "mbbill/undotree" },
-    { 'neovim/nvim-lspconfig' },
+    { 'jackocoolio/nvim-lspconfig', branch = "feat/roc_language_server" },
     { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/cmp-nvim-lua" },
     { "hrsh7th/cmp-nvim-lsp-signature-help" },
