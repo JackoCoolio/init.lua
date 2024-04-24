@@ -47,7 +47,15 @@ local plugins = {
 
     { "tpope/vim-fugitive" },
     { "sindrets/diffview.nvim" },
-    { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }
+    { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeouten = 300
+        end,
+    },
 }
 
 local opts = {
