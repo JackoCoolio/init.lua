@@ -174,6 +174,7 @@ local servers = {
     gleam = {
         cmd = { "glas" },
     },
+    roc = {},
 }
 
 local util = require("jackocoolio.util")
