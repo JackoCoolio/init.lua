@@ -35,23 +35,6 @@ telescope.load_extension("file_browser")
 
 local opts = { noremap = true, silent = true }
 
-vim.keymap.set("n", "<leader>pf", function()
-    builtin.find_files()
-end, opts)
-
-vim.keymap.set("n", "<leader>gf", function()
-    if util.is_git() then
-        builtin.git_files()
-    else
-        -- fallback to regular search when not in git directory
-        builtin.find_files()
-    end
-end, opts)
-
-vim.keymap.set("n", "<leader>ps", function()
-    builtin.live_grep()
-end, opts)
-
 vim.keymap.set("n", "<leader>pg", function()
     local search = vim.fn.input("grep: ")
     builtin.grep_string({ search = search })
@@ -59,8 +42,4 @@ end, opts)
 
 vim.keymap.set("n", "<leader>pd", builtin.lsp_workspace_symbols, opts)
 
-vim.keymap.set("n", "<leader>pb", builtin.buffers, opts)
-
 vim.keymap.set("n", "<leader>e", telescope.extensions.file_browser.file_browser, opts)
-
-vim.keymap.set("n", "<leader>ht", builtin.help_tags, opts)

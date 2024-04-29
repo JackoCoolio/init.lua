@@ -16,6 +16,8 @@ local plugins = {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { "nvim-telescope/telescope-file-browser.nvim", dependencies = { { "nvim-telescope/telescope.nvim" }, { "nvim-tree/nvim-web-devicons" } } },
 
+    { "ibhagwan/fzf-lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
+
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "mbbill/undotree" },
