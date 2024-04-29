@@ -18,7 +18,10 @@ local plugins = {
 
     { "ibhagwan/fzf-lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
 
+    -- themes
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    { "rebelot/kanagawa.nvim", priority = 1000 },
+
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "mbbill/undotree" },
     { 'jackocoolio/nvim-lspconfig', branch = "feat/roc_language_server" },
@@ -63,7 +66,7 @@ local plugins = {
 local opts = {
     install = {
         -- try to load catppuccin before running :Lazy on startup
-        colorscheme = { "catppuccin" },
+        colorscheme = { "kanagawa" },
     },
     checker = {
         enabled = true,

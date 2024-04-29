@@ -1,4 +1,4 @@
-local default_color = "catppuccin"
+local default_color = "kanagawa"
 
 local configs
 function ColorMyPencils(color)
@@ -6,11 +6,9 @@ function ColorMyPencils(color)
 
     local config = configs[color]
 
-    if type(config) ~= "function" then
-        error "colorscheme has no config"
+    if type(config) == "function" then
+        config()
     end
-
-    config()
 
     vim.cmd.colorscheme(color)
 end
@@ -58,7 +56,16 @@ configs = {
                 mini = false,
             },
         })
-    end
+    end,
+    kanagawa = function()
+        require("kanagawa").setup {
+            compile = true,
+            undercurl = true,
+            transparent = false,
+            overrides = function(colors)
+            end,
+        }
+    end,
 }
 
 -- initialize colors by default
