@@ -33,7 +33,7 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- format document
 vim.keymap.set("n", "<leader>fd", function()
-    vim.lsp.buf.formatting_sync()
+    vim.lsp.buf.format()
     print("info: formatted current buffer")
 end)
 
