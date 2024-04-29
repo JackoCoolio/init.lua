@@ -62,8 +62,6 @@ configs = {
             compile = true,
             undercurl = true,
             transparent = false,
-            overrides = function(colors)
-            end,
         }
     end,
 }
