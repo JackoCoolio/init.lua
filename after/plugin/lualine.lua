@@ -5,7 +5,7 @@ lsp_status.config {
     indicator_ok = "👍"
 }
 
-function get_lsp_status()
+local function get_lsp_status()
     local num_clients = vim.lsp.get_active_clients()
 
     if #num_clients > 0 then
