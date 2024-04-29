@@ -1,8 +1,8 @@
 local lsp_status = require("lsp-status")
 
 lsp_status.config {
-    status_symbol = " 📶 ",
-    indicator_ok = "👍"
+    status_symbol = " ",
+    indicator_ok = " "
 }
 
 local function get_lsp_status()
