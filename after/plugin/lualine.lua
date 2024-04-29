@@ -23,8 +23,8 @@ require("lualine").setup {
     options = {
         icons_enabled = true,
         theme = "auto",
-        component_separators = { left = " ", right = " " },
-        section_separators = { left = " ", right = " " },
+        component_separators = { left = " ", right = " " },
+        section_separators = { left = "", right = "" },
         disabled_filetypes = {
             statusline = {},
             winbar = {},
@@ -77,14 +77,7 @@ require("lualine").setup {
         lualine_y = {},
         lualine_z = {},
     },
-    tabline = {
-        lualine_a = { "filename" },
-        lualine_b = {},
-        -- lualine_c = { { navic.get_location, con = navic.is_available } },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-    },
+    tabline = nil,
     winbar = {},
     inactive_winbar = {},
     extensions = {},
