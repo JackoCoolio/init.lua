@@ -6,7 +6,6 @@ local opts = {
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "<leader>Q", vim.diagnostic.reset, opts)
 
 local lsp_status = require("lsp-status")
@@ -36,10 +35,6 @@ lsp_status.register_progress()
 
 local on_attach = function(client, bufnr)
     lsp_status.on_attach(client)
-
-    if client.server_capabilities.documentSymbolProvider then
-        -- navic.attach(client, bufnr)
-    end
 
     if client.server_capabilities.documentationHighlightProvider then
         vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
