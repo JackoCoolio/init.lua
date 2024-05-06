@@ -54,16 +54,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- setup LSP maps
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-        local trouble = require("trouble.providers.lsp")
+        local trouble = require("trouble")
         local bufopts = { noremap = true, silent = true, buffer = args.buf }
 
         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
-        vim.keymap.set("n", "gD", trouble.type_definitions, bufopts)
-        vim.keymap.set("n", "gd", trouble.definitions, bufopts)
-        vim.keymap.set("n", "gi", trouble.implementations, bufopts)
-        vim.keymap.set("n", "gr", trouble.references, bufopts)
-        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
+        vim.keymap.set("n", "gD", function() trouble.toggle("lsp_type_definitions") end, bufopts)
+        vim.keymap.set("n", "gd", function() trouble.toggle("lsp_definitions") end, bufopts)
+        vim.keymap.set("n", "gi", function() trouble.toggle("lsp_implementations") end, bufopts)
+        vim.keymap.set("n", "gr", function() trouble.toggle("lsp_references") end, bufopts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
     end,
 })
