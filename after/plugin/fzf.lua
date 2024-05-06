@@ -13,5 +13,5 @@ vim.keymap.set("n", "<leader>fb", function()
 end)
 
 vim.keymap.set("n", "<leader>fs", function()
-    fzf.grep_visual()
+    fzf.live_grep_native()
 end)
