@@ -1,6 +1,6 @@
 local fzf = require("fzf-lua")
 
-vim.keymap.set("n", "<leader>f", function()
+vim.keymap.set("n", "<leader>f?", function()
     fzf.builtin()
 end)
 
