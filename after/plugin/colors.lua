@@ -1,4 +1,4 @@
-local default_color = "kanagawa"
+local default_color = "oxocarbon"
 
 local configs
 function ColorMyPencils(color)

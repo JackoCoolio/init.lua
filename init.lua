@@ -21,6 +21,8 @@ local plugins = {
     -- themes
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     { "rebelot/kanagawa.nvim", priority = 1000 },
+    { "folke/tokyonight.nvim", priority = 1000 },
+    { "nyoom-engineering/oxocarbon.nvim", priority = 1000 },
 
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "mbbill/undotree" },
@@ -66,7 +68,7 @@ local plugins = {
 local opts = {
     install = {
         -- try to load catppuccin before running :Lazy on startup
-        colorscheme = { "kanagawa" },
+        colorscheme = { "oxocarbon" },
     },
     checker = {
         enabled = true,
