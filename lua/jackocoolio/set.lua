@@ -73,6 +73,7 @@ vim.opt.colorcolumn = "80"
 vim.opt.fillchars = "diff:󰿟"
 
 vim.o.smartcase = true
+vim.o.ignorecase = true
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
     pattern = "*.roc",
