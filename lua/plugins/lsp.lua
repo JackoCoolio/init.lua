@@ -25,7 +25,7 @@ table.insert(lua_runtime_path, "lua/?/init.lua")
 local servers = {
     prismals = {},
     cssls = {},
-    tsserver = {},
+    vtsls = {},
     pyright = {},
     jsonls = {
         filetypes = { "json", "jsonc" },
