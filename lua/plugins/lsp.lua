@@ -1,23 +1,3 @@
-    -- { 'jackocoolio/nvim-lspconfig', branch = "feat/roc_language_server" },
-    -- { "hrsh7th/cmp-nvim-lsp" },
-    -- { "hrsh7th/cmp-nvim-lua" },
-    -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
-    -- { "hrsh7th/cmp-buffer" },
-    -- { "hrsh7th/cmp-path" },
-    -- { "hrsh7th/cmp-cmdline" },
-    -- { "hrsh7th/nvim-cmp" },
-    -- { 'L3MON4D3/LuaSnip' },
-    -- -- { "williamboman/mason.nvim" },
-    -- -- { "williamboman/mason-lspconfig.nvim" },
-    -- -- { "mfussenegger/nvim-jdtls" },
-
-    -- { "nvim-lua/lsp-status.nvim" },
-
-    -- -- { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" } },
-    -- -- { "SmiteshP/nvim-navic", dependencies = { "neovim/nvim-lspconfig" } },
-    -- -- { "nvim-neorg/neorg", build = ":Neorg sync-parsers" },
-    --
-
 local lua_runtime_path = vim.split(package.path, ";")
 table.insert(lua_runtime_path, "lua/?.lua")
 table.insert(lua_runtime_path, "lua/?/init.lua")
