@@ -81,77 +81,8 @@ local servers = {
     gleam = {},
 }
 
-local toggle_trouble_fn = function(mode)
-    return function()
-        require("trouble").toggle(mode)
-    end
-end
-
-local on_attach = function(client, bufnr)
+local on_attach = function(client)
     require("lsp-status").on_attach(client)
-
-    require("which-key").add {
-        {
-            buffer = bufnr,
-            group = "lsp",
-            mode = "n",
-            {
-                desc = "Open diagnostic float",
-                "gl",
-                vim.diagnostic.open_float,
-            },
-            {
-                desc = "Goto previous diagnostic",
-                "<leader>dN",
-                vim.diagnostic.goto_prev,
-            },
-            {
-                desc = "Goto previous diagnostic",
-                "<leader>dn",
-                vim.diagnostic.goto_next,
-            },
-            {
-                desc = "Reset diagnostics",
-                "<leader>Q",
-                vim.diagnostic.reset,
-            },
-            {
-                desc = "Hover symbol",
-                "K",
-                vim.lsp.buf.hover,
-            },
-            {
-                desc = "Rename symbol",
-                "<leader>rn",
-                vim.lsp.buf.rename,
-            },
-            {
-                desc = "Goto declaration",
-                "gD",
-                toggle_trouble_fn("lsp_type_definitions"),
-            },
-            {
-                desc = "Goto definition",
-                "gd",
-                toggle_trouble_fn("lsp_definitions"),
-            },
-            {
-                desc = "Goto implementations",
-                "gi",
-                toggle_trouble_fn("lsp_implementations"),
-            },
-            {
-                desc = "Goto references",
-                "gr",
-                toggle_trouble_fn("lsp_references"),
-            },
-            {
-                desc = "Format document",
-                "<leader>fd",
-                vim.lsp.buf.format,
-            },
-        }
-    }
 end
 
 return {
