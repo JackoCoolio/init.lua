@@ -3,7 +3,7 @@
 local space = "·"
 vim.opt.listchars = {
     tab = " ",
-    lead = space,
+    -- lead = space,
     trail = space,
     nbsp = space,
 }
