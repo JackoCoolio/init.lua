@@ -1,4 +1,4 @@
-vim.opt.guicursor = ""
+-- vim.opt.guicursor = ""
 
 local space = "·"
 vim.opt.listchars = {
