@@ -1,20 +1,20 @@
 return {
-    "sindrets/diffview.nvim",
+	"sindrets/diffview.nvim",
 
-    keys = {
-        { "<leader>gd", "<cmd>DiffviewOpen<cr>" }, 
-    },
+	keys = {
+		{ "<leader>gd", "<cmd>DiffviewOpen<cr>" },
+	},
 
-    cmd = {
-        "DiffviewOpen",
-        "DiffviewClose",
-        "DiffviewToggleFiles",
-        "DiffviewFocusFiles",
-        "DiffviewRefresh",
-        "DiffviewFileHistory",
-    },
+	cmd = {
+		"DiffviewOpen",
+		"DiffviewClose",
+		"DiffviewToggleFiles",
+		"DiffviewFocusFiles",
+		"DiffviewRefresh",
+		"DiffviewFileHistory",
+	},
 
-    opts = {
-        hg_cmd = nil,
-    },
+	opts = {
+		hg_cmd = nil,
+	},
 }

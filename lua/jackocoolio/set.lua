@@ -2,10 +2,10 @@
 
 local space = "·"
 vim.opt.listchars = {
-    tab = " ",
-    -- lead = space,
-    trail = space,
-    nbsp = space,
+	tab = " ",
+	-- lead = space,
+	trail = space,
+	nbsp = space,
 }
 
 vim.opt.list = true
@@ -13,23 +13,23 @@ vim.opt.list = true
 vim.cmd([[match TrailingWhitespace /\s\+$/]])
 
 local set_trailing_whitespace_level = function(level)
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = level })
+	vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = level })
 end
 
 set_trailing_whitespace_level("Error")
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-    callback = function()
-        vim.opt.listchars.trail = nil
-        set_trailing_whitespace_level("Whitespace")
-    end
+	callback = function()
+		vim.opt.listchars.trail = nil
+		set_trailing_whitespace_level("Whitespace")
+	end,
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
-    callback = function()
-        vim.opt.listchars.trail = space
-        set_trailing_whitespace_level("Error")
-    end
+	callback = function()
+		vim.opt.listchars.trail = space
+		set_trailing_whitespace_level("Error")
+	end,
 })
 
 vim.opt.cursorline = true
@@ -76,8 +76,8 @@ vim.o.smartcase = true
 vim.o.ignorecase = true
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
-    pattern = "*.roc",
-    callback = function()
-        vim.bo.filetype = "roc"
-    end,
+	pattern = "*.roc",
+	callback = function()
+		vim.bo.filetype = "roc"
+	end,
 })

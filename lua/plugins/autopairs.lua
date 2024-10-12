@@ -1,21 +1,21 @@
 return {
-    "echasnovski/mini.pairs",
+	"echasnovski/mini.pairs",
 
-    event = "InsertEnter",
+	event = "InsertEnter",
 
-    opts = {
-        modes = {
-            insert = true,
-            command = false,
-            terminal = false,
-        },
+	opts = {
+		modes = {
+			insert = true,
+			command = false,
+			terminal = false,
+		},
 
-        mappings = {},
-    },
+		mappings = {},
+	},
 }
 
 -- local npairs = require("nvim-autopairs")
--- 
+--
 -- npairs.setup({
 --     map_bs = false,
 --     map_cr = false,

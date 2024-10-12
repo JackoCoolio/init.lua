@@ -1,13 +1,13 @@
 return {
-    "rebelot/kanagawa.nvim",
+	"rebelot/kanagawa.nvim",
 
-    priority = 1000,
+	priority = 1000,
 
-    lazy = true,
+	lazy = true,
 
-    opts = {
-        compile = true,
-        undercurl = true,
-        transparent = false,
-    }
+	opts = {
+		compile = true,
+		undercurl = true,
+		transparent = false,
+	},
 }

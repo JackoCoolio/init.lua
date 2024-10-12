@@ -1,12 +1,12 @@
 return {
-    "nvim-lua/lsp-status.nvim",
+	"nvim-lua/lsp-status.nvim",
 
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 
-    config = function()
-        require("lsp-status").config {
-            status_symbol = " ",
-            indicator_ok = " ",
-        }
-    end,
+	config = function()
+		require("lsp-status").config({
+			status_symbol = " ",
+			indicator_ok = " ",
+		})
+	end,
 }

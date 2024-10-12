@@ -1,5 +1,5 @@
 return {
-    "folke/tokyonight.nvim",
+	"folke/tokyonight.nvim",
 
-    priority = 1000,
+	priority = 1000,
 }

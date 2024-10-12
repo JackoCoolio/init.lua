@@ -1,19 +1,24 @@
 return {
-    "folke/trouble.nvim",
+	"folke/trouble.nvim",
 
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 
-    cmd = "Trouble",
+	cmd = "Trouble",
 
-    keys = {
-        { "<leader>od", function() require("trouble").toggle() end },
-    },
+	keys = {
+		{
+			"<leader>od",
+			function()
+				require("trouble").toggle()
+			end,
+		},
+	},
 
-    opts = {
-        multiline = true,
-        auto_open = false,
-        auto_close = false,
-        mode = "workspace_diagnostics",
-        follow = false,
-    },
+	opts = {
+		multiline = true,
+		auto_open = false,
+		auto_close = false,
+		mode = "workspace_diagnostics",
+		follow = false,
+	},
 }

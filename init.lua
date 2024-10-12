@@ -12,14 +12,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local opts = {
-    install = {
-        colorscheme = { "catppuccin" },
-    },
-    checker = {
-        enabled = true,
-        notify = true,
-        frequency = 60,
-    },
+	install = {
+		colorscheme = { "catppuccin" },
+	},
+	checker = {
+		enabled = true,
+		notify = true,
+		frequency = 60,
+	},
 }
 
 require("jackocoolio")
