@@ -16,12 +16,13 @@ return {
 					default_workspace = "notes",
 				},
 			},
-			["core.completion"] = {
-				config = {
-					name = "[Neorg]",
-					engine = "nvim-cmp",
-				},
-			},
+			-- update once blink is supported
+			-- ["core.completion"] = {
+			-- 	config = {
+			-- 		name = "[Neorg]",
+			-- 		engine = "nvim-cmp",
+			-- 	},
+			-- },
 		},
 	},
 

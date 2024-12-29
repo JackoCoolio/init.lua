@@ -9,6 +9,11 @@ end
 return {
 	"neovim/nvim-lspconfig",
 
+	dependencies = {
+		"saghen/blink.cmp",
+		"nvim-lua/lsp-status.nvim",
+	},
+
 	opts = {
 		servers = {
 			prismals = {},
@@ -80,8 +85,7 @@ return {
 
 		local common_capabilities = {}
 		common_capabilities = vim.tbl_deep_extend("keep", common_capabilities, require("lsp-status").capabilities)
-		common_capabilities =
-			vim.tbl_deep_extend("keep", common_capabilities, require("cmp_nvim_lsp").default_capabilities())
+		common_capabilities = require("blink.cmp").get_lsp_capabilities(common_capabilities)
 
 		for server, server_config in pairs(opts.servers) do
 			local server_disabled = (server_config.disabled ~= nil and server_config.disabled) or false
