@@ -71,7 +71,7 @@ return {
 			},
 			html = {},
 			zls = {},
-			nil_ls = {},
+			nixd = {},
 			gleam = {},
 		},
 	},
