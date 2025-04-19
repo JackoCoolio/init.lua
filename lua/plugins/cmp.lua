@@ -54,6 +54,10 @@ return {
 				auto_show_delay_ms = 100,
 			},
 		},
+
+		fuzzy = {
+			implementation = "prefer_rust_with_warning",
+		},
 	},
 
 	opts_extend = { "sources.default" },
