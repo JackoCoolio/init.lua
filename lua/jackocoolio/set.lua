@@ -50,6 +50,10 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
+-- prevent # from removing indent
+vim.opt.cinkeys:remove("0#")
+vim.opt.cindent = true
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
