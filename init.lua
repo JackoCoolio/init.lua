@@ -11,7 +11,23 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local opts = {
+if os.getenv("NIX_STORE") ~= nil then
+	local orig_stdpath = vim.fn.stdpath
+	vim.fn.stdpath = function(name)
+		local nvim_config_path = os.getenv("NVIM_CONFIG_PATH")
+		if name == "config" and nvim_config_path ~= nil then
+			return nvim_config_path
+		else
+			return orig_stdpath(name)
+		end
+	end
+end
+
+require("jackocoolio")
+
+vim.g.mapleader = " "
+
+require("lazy").setup("plugins", {
 	install = {
 		colorscheme = { "catppuccin" },
 	},
@@ -20,10 +36,4 @@ local opts = {
 		notify = true,
 		frequency = 60,
 	},
-}
-
-require("jackocoolio")
-
-vim.g.mapleader = " "
-
-require("lazy").setup("plugins", opts)
+})
