@@ -1,8 +1,6 @@
 return {
 	"folke/noice.nvim",
 
-	version = "4.4.7",
-
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 	},
