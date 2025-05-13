@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-if os.getenv("NIX_STORE") ~= nil then
+if os.getenv("NIX_PATH") ~= nil then
 	local orig_stdpath = vim.fn.stdpath
 	vim.fn.stdpath = function(name)
 		local nvim_config_path = os.getenv("NVIM_CONFIG_PATH")
