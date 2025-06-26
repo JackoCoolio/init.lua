@@ -5,6 +5,8 @@ return {
 		"MunifTanjim/nui.nvim",
 	},
 
+	enabled = false,
+
 	event = "VeryLazy",
 
 	opts = {
