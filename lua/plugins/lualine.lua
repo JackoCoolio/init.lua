@@ -1,5 +1,5 @@
 local function get_lsp_status()
-	local num_clients = vim.lsp.get_active_clients()
+	local num_clients = vim.lsp.get_clients()
 
 	if #num_clients > 0 then
 		local status = require("lsp-status").status()
